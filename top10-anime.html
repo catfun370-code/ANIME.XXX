@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>افضل عشرة انميات في التاريخ</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #f0d080;
+    --gold-dark: #8a6820;
+    --black: #040404;
+    --deep: #0a0806;
+    --charcoal: #111009;
+    --text: #e8dcc8;
+    --text-dim: #a09070;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'Noto Naskh Arabic', serif;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* GRAIN OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.6;
+  }
+
+  /* HERO */
+  .hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 50% 40%, #1a1205 0%, #040404 70%);
+  }
+
+  .hero-bg-lines {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(201,168,76,0.04) 80px),
+      repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(201,168,76,0.04) 80px);
+    pointer-events: none;
+  }
+
+  .hero-orb {
+    position: absolute;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -55%);
+    pointer-events: none;
+  }
+
+  .hero-border-top {
+    position: absolute;
+    top: 40px;
+    left: 60px;
+    right: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .hero-border-bottom {
+    position: absolute;
+    bottom: 40px;
+    left: 60px;
+    right: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .hero-corner {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-color: var(--gold-dark);
+    border-style: solid;
+    opacity: 0.6;
+  }
+  .hero-corner.tl { top: 28px; left: 48px; border-width: 1px 0 0 1px; }
+  .hero-corner.tr { top: 28px; right: 48px; border-width: 1px 1px 0 0; }
+  .hero-corner.bl { bottom: 28px; left: 48px; border-width: 0 0 1px 1px; }
+  .hero-corner.br { bottom: 28px; right: 48px; border-width: 0 1px 1px 0; }
+
+  .hero-eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 6px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.3s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(36px, 6vw, 88px);
+    font-weight: 900;
+    text-align: center;
+    line-height: 1.1;
+    background: linear-gradient(135deg, #f0d080 0%, #c9a84c 35%, #f0d080 60%, #8a6820 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.5s forwards;
+    position: relative;
+  }
+
+  .hero-subtitle {
+    font-family: 'Noto Naskh Arabic', serif;
+    font-size: clamp(14px, 2vw, 20px);
+    color: var(--text-dim);
+    margin-top: 24px;
+    letter-spacing: 2px;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.8s forwards;
+  }
+
+  .hero-divider {
+    width: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 36px auto 0;
+    opacity: 0;
+    animation: fadeUp 1s ease 1s forwards;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeUp 1s ease 1.5s forwards;
+  }
+
+  .scroll-hint span {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: var(--gold-dark);
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(to bottom, var(--gold-dark), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.1); }
+  }
+
+  /* SECTION */
+  .section-header {
+    text-align: center;
+    padding: 100px 40px 80px;
+    position: relative;
+  }
+
+  .section-label {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 8px;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(24px, 4vw, 52px);
+    background: linear-gradient(135deg, #f0d080, #c9a84c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ANIME CARDS GRID */
+  .anime-grid {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px 120px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 2px;
+  }
+
+  /* FEATURED CARD - first one takes full width */
+  .anime-card:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .anime-card {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    group: true;
+    background: var(--charcoal);
+  }
+
+  .anime-card-inner {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16/9;
+  }
+
+  .anime-card:first-child .anime-card-inner {
+    aspect-ratio: 21/7;
+  }
+
+  .anime-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.6s ease;
+    filter: brightness(0.7) saturate(0.8);
+  }
+
+  .anime-card:hover .anime-img {
+    transform: scale(1.08);
+    filter: brightness(0.85) saturate(1.1);
+  }
+
+  /* DARK GRADIENT OVER IMAGE */
+  .anime-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(4,4,4,0.95) 0%,
+      rgba(4,4,4,0.5) 40%,
+      rgba(4,4,4,0.1) 70%,
+      transparent 100%
+    );
+    transition: opacity 0.4s ease;
+  }
+
+  /* GOLD SHIMMER ON HOVER */
+  .anime-shimmer {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 40%, rgba(201,168,76,0.06) 50%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .anime-card:hover .anime-shimmer { opacity: 1; }
+
+  /* RANK NUMBER */
+  .anime-rank {
+    position: absolute;
+    top: 24px;
+    right: 28px;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(48px, 8vw, 96px);
+    font-weight: 900;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(201,168,76,0.3);
+    line-height: 1;
+    transition: -webkit-text-stroke 0.4s ease;
+    user-select: none;
+  }
+  .anime-card:first-child .anime-rank { font-size: 120px; }
+  .anime-card:hover .anime-rank { -webkit-text-stroke: 1px rgba(201,168,76,0.7); }
+
+  /* INFO */
+  .anime-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 40px 36px 32px;
+    transform: translateY(4px);
+    transition: transform 0.4s ease;
+  }
+  .anime-card:hover .anime-info { transform: translateY(0); }
+
+  .anime-genre {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 5px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .anime-title-ar {
+    font-family: 'Noto Naskh Arabic', serif;
+    font-size: clamp(22px, 3vw, 36px);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 6px;
+    direction: rtl;
+  }
+  .anime-card:first-child .anime-title-ar { font-size: clamp(28px, 4vw, 52px); }
+
+  .anime-title-en {
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--gold-dark);
+    margin-bottom: 16px;
+  }
+
+  .anime-desc {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--text-dim);
+    max-width: 600px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.5s ease 0.1s, transform 0.5s ease 0.1s;
+  }
+  .anime-card:hover .anime-desc {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .anime-meta {
+    display: flex;
+    gap: 24px;
+    margin-top: 16px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.5s ease 0.15s, transform 0.5s ease 0.15s;
+    align-items: center;
+  }
+  .anime-card:hover .anime-meta {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .anime-score {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    color: var(--gold);
+  }
+
+  .score-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+
+  .anime-year {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+  }
+
+  /* GOLD LINE BOTTOM */
+  .anime-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    transform: scaleX(0);
+    transition: transform 0.5s ease;
+  }
+  .anime-card:hover::after { transform: scaleX(1); }
+
+  /* FOOTER */
+  .footer {
+    background: var(--deep);
+    border-top: 1px solid rgba(201,168,76,0.15);
+    padding: 60px 40px;
+    text-align: center;
+  }
+
+  .footer-logo {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 20px;
+    background: linear-gradient(135deg, #f0d080, #c9a84c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+  }
+
+  .footer-text {
+    font-size: 13px;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+  }
+
+  .footer-divider {
+    width: 60px;
+    height: 1px;
+    background: var(--gold-dark);
+    margin: 20px auto;
+    opacity: 0.4;
+  }
+
+  /* SCROLL ANIMATIONS */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Decorative separator between sections */
+  .sep {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 40px 0;
+    opacity: 0.5;
+  }
+  .sep-line { flex: 1; max-width: 200px; height: 1px; background: var(--gold-dark); }
+  .sep-diamond {
+    width: 8px;
+    height: 8px;
+    background: var(--gold-dark);
+    transform: rotate(45deg);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .anime-grid { grid-template-columns: 1fr; padding: 0 16px 80px; }
+    .anime-card:first-child .anime-card-inner { aspect-ratio: 16/9; }
+    .hero-corner, .hero-border-top, .hero-border-bottom { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-bg-lines"></div>
+  <div class="hero-orb"></div>
+  <div class="hero-border-top"></div>
+  <div class="hero-border-bottom"></div>
+  <div class="hero-corner tl"></div>
+  <div class="hero-corner tr"></div>
+  <div class="hero-corner bl"></div>
+  <div class="hero-corner br"></div>
+
+  <p class="hero-eyebrow">The Definitive Anthology</p>
+  <h1 class="hero-title">افضل عشرة<br>انميات في التاريخ</h1>
+  <p class="hero-subtitle">اعظم اعمال الرسوم المتحركة اليابانية عبر العصور</p>
+  <div class="hero-divider"></div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</header>
+
+<!-- ANIME SECTION -->
+<section>
+  <div class="section-header reveal">
+    <span class="section-label">The Greatest Of All Time</span>
+    <h2 class="section-title">المختارون للخلود</h2>
+  </div>
+
+  <div class="anime-grid">
+
+    <!-- 1 -->
+    <div class="anime-card reveal">
+      <div class="anime-card-inner">
+        <img class="anime-img" 
+          src="https://images4.alphacoders.com/136/1365891.png" 
+          alt="Fullmetal Alchemist Brotherhood"
+          onerror="this.src='https://cdn.myanimelist.net/images/anime/1223/96541l.jpg'">
+        <div class="anime-overlay"></div>
+        <div class="anime-shimmer"></div>
+        <div class="anime-rank">01</div>
+        <div class="anime-info">
+          <span class="anime-genre">Action / Drama / Fantasy</span>
+          <h3 class="anime-title-ar">فولميتال الكيميائي: الاخوة</h3>
+          <p class="anime-title-en">Fullmetal Alchemist: Brotherhood</p>
+          <p class="anime-desc">ملحمة الاخوين إدوارد وألفونس إلريك في رحلة لاستعادة ما فقداه، تحكي عن الخسارة والفداء والحب بمستوى درامي لم يُسبق في عالم الانمي. قمة فنية خالصة.</p>
+          <div class="anime-meta">
+            <span class="anime-score"><span class="score-dot"></span>9.1 / 10</span>
+            <span class="anime-year">2009</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="anime-card reveal">
+      <div class="anime-card-inner">
+        <img class="anime-img" 
+          src="https://cdn.myanimelist.net/images/anime/9/9453l.jpg" 
+          alt="Neon Genesis Evangelion"
+          onerror="this.src='https://upload.wikimedia.org/wikipedia/en/7/70/Neon_Genesis_Evangelion_DVD_v1_cover.jpg'">
+        <div class="anime-overlay"></div>
+        <div class="anime-shimmer"></div>
+        <div class="anime-rank">02</div>
+        <div class="anime-info">
+          <span class="anime-genre">Sci-Fi / Psychological</span>
+          <h3 class="anime-title-ar">نيون جينيسيس ايفانجيليون</h3>
+          <p class="anime-title-en">Neon Genesis Evangelion</p>
+          <p class="anime-desc">تحفة هيديياكي آنو التي غيّرت مفهوم الانمي للابد. اقداميات عميقة في النفس البشرية ودراما مدمرة تتشابك مع حرب كونية.</p>
+          <div class="anime-meta">
+            <span class="anime-score"><span class="score-dot"></span>8.5 / 10</span>
+            <span class="anime-year">1995</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="anime-card reveal">
+      <div class="anime-card-inner">
+        <img class="anime-img" 
+          src="https://cdn.myanimelist.net/images/anime/1208/94745l.jpg" 
+          alt="Hunter x Hunter"
+          onerror="this.src='https://upload.wikimedia.org/wikipedia/en/e/e4/Madhouse_HxH_poster.jpg'">
+        <div class="anime-overlay"></div>
+        <div class="anime-shimmer"></div>
+        <div class="anime-rank">03</div>
+        <div class="anime-info">
+          <span class="anime-genre">Adventure / Action</span>
+          <h3 class="anime-title-ar">هانتر هانتر</h3>
+          <p class="anime-title-en">Hunter x Hunter (2011)</p>
+          <p class="anime-desc">رحلة غون فريكس التي تتحول من مغامرة برئية الى ملحمة داكنة بنظام قوى فريد هو نظام "نين" الذي جعل هذا العمل مرجعًا للابد.</p>
+          <div class="anime-meta">
+            <span class="anime-score"><span class="score-dot"></span>9.0 / 10</span>
+            <span class="anime-year">2011</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="anime-card reveal">
+      <div class="anime-card-inner">
+        <img class="anime-img" 
+          src="https://cdn.myanimelist.net/images/anime/1523/90084l.jpg" 
+          alt="Attack on Titan"
+          onerror="this.src='https://cdn.myanimelist.net/images/anime/10/47347l.jpg'">
+        <div class="anime-overlay"></div>
+        <div class="anime-shimmer"></div>
+        <div class="anime-rank">04</div>
+        <div class="anime-info">
+          <span class="anime-genre">Action / Dark Fantasy</span>
+          <h3 class="anime-title-ar">هجوم العمالقة</h3>
+          <p class="anime-title-en">Attack on Titan</p>
+          <p class="anime-desc">بنية سردية مذهلة وصدمات لا تنتهي، يصوّر كيف يتحول الضحية الى جلاد والحرية الى وهم. من اكثر الاعمال تأثيرًا في الجيل الحديث.</p>
+          <div class="anime-meta">
+            <span class="anime-score"><span class="score-dot"></span>9.0 / 10</span>
+            <span class="anime-year">2013</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="anime-card reveal">
+      <div class="anime-card-inner">
+        <img class="anime-img" 
+          src="https://cdn.myanimelist.net/images/anime/1517/100633l.jpg" 
+          alt="Violet Evergarden"
+          onerror="this.src='https://cdn.myanimelist.net/images/anime/1450/99518l.jpg'">
+        <div class="anime-overlay"></div>
+        <div class="anime-shimmer"></div>
+        <div class="anime-rank">05</div>
+        <div class="anime-info">
+          <span class="anime-genre">Drama / Romance</span>
+          <h3 class="anime-title-ar">بنفسجة ايفرغاردن</h3>
+          <p class="anime-title-en">Violet Evergarden</p>
+          <p class="anime-desc">تحفة Kyoto Animation المرئية والعاطفية. جمال بصري لا مثيل له مع حكاية الحرب والحب والبحث عن المعنى في كلمة "أحبك".</p>
+          <div class="anime-meta">
+            <span class="anime-score"><span class="score-dot"></span>8.7 / 10</span>
+            <span class="anime-year">2018</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6 -->
+    <div class="anime-card reveal">
+      <div class="anime-card-inner">
+        <img class="anime-img" 
+          src="https://cdn.myanimelist.net/images/anime/1792/138022l.jpg" 
+          alt="Gintama"
+          onerror="this.src='https://cdn.myanimelist.net/images/anime/3/72078l.jpg'">
+        <div class="anime-overlay"></div>
+        <div class="anime-shimmer"></div>
+        <div class="anime-rank">06</div>
+        <div class="anime-info">
+          <span class="anime-genre">Comedy / Action / Drama</span>
+          <h3 class="anime-title-ar">جينتاما</h3>
+          <p class="anime-title-en">Gintama</p>
+          <p class="anime-desc">الانمي الوحيد في التاريخ الذي يجمع بين ان تموت ضحكًا وان تبكي دمًا في الحلقة ذاتها. رحلة سوروزا غينتوكي الفريدة من نوعها تمامًا.</p>
+          <div class="anime-meta">
+            <span class="anime-score"><span class="score-dot"></span>9.0 / 10</span>
+            <span class="anime-year">2006</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7 -->
+    <div class="anime-card reveal">
+      <div class="anime-card-inner">
+        <img class="anime-img" 
+          src="https://cdn.myanimelist.net/images/anime/1565/111305l.jpg" 
+          alt="Steins Gate"
+          onerror="this.src='https://cdn.myanimelist.net/images/anime/5/73199l.jpg'">
+        <div class="anime-overlay"></div>
+        <div class="anime-shimmer"></div>
+        <div class="anime-rank">07</div>
+        <div class="anime-info">
+          <span class="anime-genre">Sci-Fi / Thriller</span>
+          <h3 class="anime-title-ar">ستاينز جيت</h3>
+          <p class="anime-title-en">Steins;Gate</p>
+          <p class="anime-desc">اعقد واروع قصة سفر عبر الزمن رُويت في عالم الانمي. عبقرية السرد وعمق الشخصيات يجعلانه مرجعًا ابديًا في الخيال العلمي.</p>
+          <div class="anime-meta">
+            <span class="anime-score"><span class="score-dot"></span>9.1 / 10</span>
+            <span class="anime-year">2011</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8 -->
+    <div class="anime-card reveal">
+      <div class="anime-card-inner">
+        <img class="anime-img" 
+          src="https://cdn.myanimelist.net/images/anime/1517/110702l.jpg" 
+          alt="Monster"
+          onerror="this.src='https://cdn.myanimelist.net/images/anime/10/18793l.jpg'">
+        <div class="anime-overlay"></div>
+        <div class="anime-shimmer"></div>
+        <div class="anime-rank">08</div>
+        <div class="anime-info">
+          <span class="anime-genre">Mystery / Psychological Thriller</span>
+          <h3 class="anime-title-ar">الوحش</h3>
+          <p class="anime-title-en">Monster</p>
+          <p class="anime-desc">من اعمق الاعمال النفسية في التاريخ. جراح يطارد وحشًا بشريًا خلقه بنفسه. تحفة نائومي أوراساوا التي تغير نظرتك للخير والشر.</p>
+          <div class="anime-meta">
+            <span class="anime-score"><span class="score-dot"></span>8.9 / 10</span>
+            <span class="anime-year">2004</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9 -->
+    <div class="anime-card reveal">
+      <div class="anime-card-inner">
+        <img class="anime-img" 
+          src="https://cdn.myanimelist.net/images/anime/1079/138100l.jpg" 
+          alt="Death Note"
+          onerror="this.src='https://cdn.myanimelist.net/images/anime/9/9453l.jpg'">
+        <div class="anime-overlay"></div>
+        <div class="anime-shimmer"></div>
+        <div class="anime-rank">09</div>
+        <div class="anime-info">
+          <span class="anime-genre">Mystery / Psychological</span>
+          <h3 class="anime-title-ar">دفتر الموت</h3>
+          <p class="anime-title-en">Death Note</p>
+          <p class="anime-desc">لعبة شطرنج عقلية خالدة بين عبقريين. الصراع بين لايت ياغامي وL هو ذروة التشويق في عالم الانمي ولحظة لا تُنسى في تاريخ الانيميشن.</p>
+          <div class="anime-meta">
+            <span class="anime-score"><span class="score-dot"></span>8.6 / 10</span>
+            <span class="anime-year">2006</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10 -->
+    <div class="anime-card reveal">
+      <div class="anime-card-inner">
+        <img class="anime-img" 
+          src="https://cdn.myanimelist.net/images/anime/1500/103005l.jpg" 
+          alt="Vinland Saga"
+          onerror="this.src='https://cdn.myanimelist.net/images/anime/1500/103005l.jpg'">
+        <div class="anime-overlay"></div>
+        <div class="anime-shimmer"></div>
+        <div class="anime-rank">10</div>
+        <div class="anime-info">
+          <span class="anime-genre">Historical / Action / Drama</span>
+          <h3 class="anime-title-ar">ملحمة فينلاند</h3>
+          <p class="anime-title-en">Vinland Saga</p>
+          <p class="anime-desc">ملحمة فايكنغية تتحول من قصة انتقام الى رحلة بحث عن السلام الحقيقي. من اروع ما قدّمه الانمي في تصوير نمو الشخصية وتحولها الروحي.</p>
+          <div class="anime-meta">
+            <span class="anime-score"><span class="score-dot"></span>8.7 / 10</span>
+            <span class="anime-year">2019</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SEP -->
+<div class="sep">
+  <div class="sep-line"></div>
+  <div class="sep-diamond"></div>
+  <div class="sep-line"></div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-logo">ANIME LEGACY</div>
+  <div class="footer-divider"></div>
+  <p class="footer-text">اعظم اعمال الرسوم المتحركة اليابانية — مختارة بعناية وحب</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach((el, i) => {
+    el.style.transitionDelay = `${(i % 3) * 0.1}s`;
+    observer.observe(el);
+  });
+
+  // Parallax on hero orb
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    const orb = document.querySelector('.hero-orb');
+    if (orb) orb.style.transform = `translate(-50%, calc(-55% + ${scrollY * 0.3}px))`;
+  });
+</script>
+
+</body>
+</html>

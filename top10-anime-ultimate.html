@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>افضل عشرة انميات في التاريخ</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Noto+Naskh+Arabic:wght@400;600;700&family=Cinzel:wght@400;600;900&display=swap" rel="stylesheet">
+<style>
+
+/* ======= RESET & BASE ======= */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --gold:       #c8a84b;
+  --gold2:      #f5d97a;
+  --gold3:      #7a5c1e;
+  --bg:         #03020a;
+  --bg2:        #07050f;
+  --text:       #ede0c4;
+  --dim:        #8a7a5a;
+  --card-bg:    rgba(10,8,20,0.85);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Naskh Arabic', serif;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ======= CUSTOM CURSOR ======= */
+#cursor {
+  position: fixed;
+  width: 12px; height: 12px;
+  background: var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
+  transform: translate(-50%,-50%);
+  mix-blend-mode: difference;
+}
+#cursor-ring {
+  position: fixed;
+  width: 40px; height: 40px;
+  border: 1px solid rgba(200,168,75,0.6);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(-50%,-50%);
+  transition: transform 0.15s ease, width 0.3s, height 0.3s, opacity 0.3s;
+}
+body:has(.anime-card:hover) #cursor { width: 60px; height: 60px; background: rgba(200,168,75,0.15); }
+body:has(.anime-card:hover) #cursor-ring { width: 80px; height: 80px; opacity: 0; }
+
+/* ======= PARTICLE CANVAS ======= */
+#particle-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.7;
+}
+
+/* ======= HERO ======= */
+.hero {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* BIG radial background */
+.hero::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 50%, rgba(200,168,75,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 120% 80% at 50% 100%, rgba(80,30,120,0.15) 0%, transparent 60%);
+  z-index:0;
+}
+
+/* Animated diagonal lines */
+.hero-lines {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+.hero-lines span {
+  position: absolute;
+  display: block;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent, rgba(200,168,75,0.08), transparent);
+  animation: lineDrop 6s linear infinite;
+  opacity: 0;
+}
+.hero-lines span:nth-child(1) { left:10%; animation-delay:0s; }
+.hero-lines span:nth-child(2) { left:25%; animation-delay:1.2s; }
+.hero-lines span:nth-child(3) { left:40%; animation-delay:2.4s; }
+.hero-lines span:nth-child(4) { left:55%; animation-delay:0.7s; }
+.hero-lines span:nth-child(5) { left:70%; animation-delay:1.9s; }
+.hero-lines span:nth-child(6) { left:85%; animation-delay:3.1s; }
+.hero-lines span:nth-child(7) { left:5%;  animation-delay:4s; }
+.hero-lines span:nth-child(8) { left:95%; animation-delay:2.8s; }
+
+@keyframes lineDrop {
+  0%   { opacity:0; transform: scaleY(0) translateY(-100%); }
+  10%  { opacity:1; }
+  90%  { opacity:1; }
+  100% { opacity:0; transform: scaleY(1) translateY(0%); }
+}
+
+/* Decorative gold circle */
+.hero-circle {
+  position:absolute;
+  width:700px; height:700px;
+  border-radius:50%;
+  border:1px solid rgba(200,168,75,0.06);
+  top:50%; left:50%;
+  transform: translate(-50%,-50%);
+  animation: rotateSlow 40s linear infinite;
+}
+.hero-circle::before {
+  content:'';
+  position:absolute;
+  inset:30px;
+  border-radius:50%;
+  border:1px solid rgba(200,168,75,0.04);
+  animation: rotateSlow 25s linear infinite reverse;
+}
+.hero-circle::after {
+  content:'';
+  position:absolute;
+  width:12px; height:12px;
+  background:var(--gold);
+  border-radius:50%;
+  top:-6px; left:50%;
+  transform:translateX(-50%);
+  box-shadow: 0 0 20px var(--gold), 0 0 40px rgba(200,168,75,0.5);
+}
+@keyframes rotateSlow { to { transform:translate(-50%,-50%) rotate(360deg); } }
+
+/* Hero content */
+.hero-content { position:relative; z-index:2; text-align:center; padding:0 20px; }
+
+.hero-eyebrow {
+  font-family:'Cinzel', serif;
+  font-size:11px;
+  letter-spacing:10px;
+  color:var(--gold);
+  display:block;
+  margin-bottom:28px;
+  opacity:0;
+  animation: heroFadeUp 1.2s cubic-bezier(0.16,1,0.3,1) 0.4s forwards;
+}
+
+.hero-title-wrap {
+  position:relative;
+  overflow:hidden;
+}
+
+.hero-title {
+  font-family:'Cinzel Decorative', serif;
+  font-size: clamp(40px,7vw,100px);
+  font-weight:900;
+  line-height:1.05;
+  background: linear-gradient(135deg, #fff5d0 0%, #f5d97a 20%, #c8a84b 50%, #f5d97a 80%, #fff5d0 100%);
+  background-size:200% 200%;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation: heroFadeUp 1.2s cubic-bezier(0.16,1,0.3,1) 0.6s forwards, goldShimmer 4s ease-in-out 2s infinite;
+  opacity:0;
+}
+@keyframes goldShimmer {
+  0%,100% { background-position:0% 50%; }
+  50%      { background-position:100% 50%; }
+}
+
+.hero-subtitle {
+  font-size: clamp(14px,1.8vw,20px);
+  color:var(--dim);
+  margin-top:24px;
+  letter-spacing:3px;
+  opacity:0;
+  animation: heroFadeUp 1.2s cubic-bezier(0.16,1,0.3,1) 0.9s forwards;
+}
+
+.hero-line-decor {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  margin-top:40px;
+  opacity:0;
+  animation: heroFadeUp 1s ease 1.2s forwards;
+}
+.hdl { width:100px; height:1px; background:linear-gradient(90deg,transparent,var(--gold)); }
+.hdr { width:100px; height:1px; background:linear-gradient(90deg,var(--gold),transparent); }
+.hdd { width:8px; height:8px; background:var(--gold); transform:rotate(45deg); box-shadow:0 0 10px var(--gold); }
+
+/* Scroll indicator */
+.scroll-cue {
+  position:absolute;
+  bottom:50px; left:50%; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:10px;
+  z-index:2;
+  opacity:0;
+  animation: heroFadeUp 1s ease 2s forwards;
+}
+.scroll-cue p { font-family:'Cinzel',serif; font-size:9px; letter-spacing:5px; color:var(--gold3); }
+.scroll-bar {
+  width:1px; height:60px;
+  background:linear-gradient(to bottom, var(--gold), transparent);
+  animation:scrollBar 2s ease-in-out infinite;
+}
+@keyframes scrollBar {
+  0%,100% { transform:scaleY(1); opacity:0.5; }
+  50%      { transform:scaleY(1.15); opacity:1; }
+}
+
+@keyframes heroFadeUp {
+  from { opacity:0; transform:translateY(30px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ======= SECTION HEADER ======= */
+.sec-head {
+  text-align:center;
+  padding:100px 20px 70px;
+  position:relative;
+  z-index:1;
+}
+.sec-label {
+  font-family:'Cinzel',serif;
+  font-size:10px;
+  letter-spacing:8px;
+  color:var(--gold);
+  display:block;
+  margin-bottom:16px;
+}
+.sec-title {
+  font-family:'Cinzel Decorative',serif;
+  font-size:clamp(28px,4vw,58px);
+  background:linear-gradient(135deg,#fff5d0,#c8a84b,#f5d97a);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.sec-desc {
+  margin-top:16px;
+  color:var(--dim);
+  font-size:15px;
+  max-width:500px;
+  margin-inline:auto;
+  line-height:1.8;
+}
+
+/* ======= ANIME GRID ======= */
+.anime-grid {
+  max-width:1500px;
+  margin:0 auto;
+  padding:0 30px 140px;
+  display:grid;
+  grid-template-columns:repeat(12, 1fr);
+  grid-auto-rows:320px;
+  gap:3px;
+  position:relative;
+  z-index:1;
+}
+
+/* Layout pattern: 1st = full, 2+3 = 6col, 4+5 = 6col, 6 = 4, 7 = 4, 8 = 4, 9+10 = 6 each */
+.ac:nth-child(1)  { grid-column: span 12; grid-row: span 2; }
+.ac:nth-child(2)  { grid-column: span 7; }
+.ac:nth-child(3)  { grid-column: span 5; }
+.ac:nth-child(4)  { grid-column: span 5; }
+.ac:nth-child(5)  { grid-column: span 7; }
+.ac:nth-child(6)  { grid-column: span 4; }
+.ac:nth-child(7)  { grid-column: span 4; }
+.ac:nth-child(8)  { grid-column: span 4; }
+.ac:nth-child(9)  { grid-column: span 6; }
+.ac:nth-child(10) { grid-column: span 6; }
+
+/* ======= CARD ======= */
+.ac {
+  position:relative;
+  overflow:hidden;
+  cursor:none;
+  background:#0a0812;
+  transform-style:preserve-3d;
+}
+
+/* Image */
+.ac-img {
+  position:absolute;
+  inset:0;
+  width:100%; height:100%;
+  object-fit:cover;
+  transition: transform 1.4s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.8s ease;
+  filter: brightness(0.55) saturate(0.7) contrast(1.05);
+  will-change:transform;
+}
+.ac:hover .ac-img {
+  transform: scale(1.12);
+  filter: brightness(0.75) saturate(1.2) contrast(1.1);
+}
+
+/* Gradient overlay */
+.ac-grad {
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    to top,
+    rgba(3,2,10,0.97) 0%,
+    rgba(3,2,10,0.6) 35%,
+    rgba(3,2,10,0.15) 65%,
+    transparent 100%
+  );
+  transition:opacity 0.5s;
+}
+.ac:hover .ac-grad {
+  background:linear-gradient(
+    to top,
+    rgba(3,2,10,0.99) 0%,
+    rgba(3,2,10,0.65) 40%,
+    rgba(3,2,10,0.2) 70%,
+    transparent 100%
+  );
+}
+
+/* Gold glow on hover */
+.ac-glow {
+  position:absolute;
+  inset:0;
+  background:radial-gradient(ellipse at 50% 100%, rgba(200,168,75,0.12) 0%, transparent 60%);
+  opacity:0;
+  transition:opacity 0.6s ease;
+}
+.ac:hover .ac-glow { opacity:1; }
+
+/* Animated border */
+.ac-border {
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:5;
+}
+.ac-border::before, .ac-border::after {
+  content:'';
+  position:absolute;
+  background:var(--gold);
+  transition:transform 0.5s cubic-bezier(0.77,0,0.175,1), opacity 0.5s;
+  opacity:0;
+}
+/* bottom line */
+.ac-border::before {
+  bottom:0; left:0; right:0;
+  height:2px;
+  transform:scaleX(0);
+  transform-origin:left;
+}
+/* left line */
+.ac-border::after {
+  top:0; bottom:0; left:0;
+  width:2px;
+  transform:scaleY(0);
+  transform-origin:bottom;
+}
+.ac:hover .ac-border::before { transform:scaleX(1); opacity:1; }
+.ac:hover .ac-border::after  { transform:scaleY(1); opacity:1; transition-delay:0.15s; }
+
+/* RANK */
+.ac-rank {
+  position:absolute;
+  top:20px;
+  right:24px;
+  font-family:'Cinzel Decorative',serif;
+  font-weight:900;
+  font-size:clamp(56px,8vw,110px);
+  color:transparent;
+  -webkit-text-stroke:1px rgba(200,168,75,0.18);
+  line-height:1;
+  transition:-webkit-text-stroke 0.5s, text-shadow 0.5s;
+  user-select:none;
+  z-index:2;
+}
+.ac:nth-child(1) .ac-rank { font-size:clamp(90px,14vw,180px); }
+.ac:hover .ac-rank {
+  -webkit-text-stroke:1px rgba(200,168,75,0.55);
+  text-shadow:0 0 60px rgba(200,168,75,0.1);
+}
+
+/* INFO */
+.ac-info {
+  position:absolute;
+  bottom:0; left:0; right:0;
+  padding:clamp(24px,4vw,44px) clamp(20px,3vw,40px) clamp(20px,3vw,36px);
+  z-index:3;
+  transform:translateY(6px);
+  transition:transform 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.ac:hover .ac-info { transform:translateY(0); }
+
+.ac-genre {
+  font-family:'Cinzel',serif;
+  font-size:9px;
+  letter-spacing:5px;
+  color:var(--gold);
+  display:block;
+  margin-bottom:10px;
+  opacity:0;
+  transform:translateY(8px);
+  transition:opacity 0.4s ease 0.05s, transform 0.4s ease 0.05s;
+}
+.ac:hover .ac-genre { opacity:1; transform:translateY(0); }
+
+.ac-title {
+  font-family:'Noto Naskh Arabic',serif;
+  font-size:clamp(18px,2.5vw,32px);
+  font-weight:700;
+  color:#fff;
+  line-height:1.25;
+  margin-bottom:6px;
+}
+.ac:nth-child(1) .ac-title { font-size:clamp(28px,4vw,52px); }
+
+.ac-en {
+  font-family:'Cinzel',serif;
+  font-size:11px;
+  letter-spacing:2px;
+  color:var(--gold3);
+  margin-bottom:14px;
+}
+
+.ac-desc {
+  font-size:clamp(12px,1.2vw,14px);
+  line-height:1.8;
+  color: rgba(237,224,196,0.75);
+  max-width:520px;
+  opacity:0;
+  transform:translateY(12px);
+  transition:opacity 0.5s ease 0.1s, transform 0.5s ease 0.1s;
+}
+.ac:hover .ac-desc { opacity:1; transform:translateY(0); }
+
+.ac-meta {
+  display:flex;
+  align-items:center;
+  gap:20px;
+  margin-top:14px;
+  opacity:0;
+  transform:translateY(12px);
+  transition:opacity 0.5s ease 0.15s, transform 0.5s ease 0.15s;
+}
+.ac:hover .ac-meta { opacity:1; transform:translateY(0); }
+
+.ac-score {
+  font-family:'Cinzel',serif;
+  font-size:13px;
+  color:var(--gold2);
+  display:flex; align-items:center; gap:8px;
+}
+.ac-score::before {
+  content:'';
+  display:block;
+  width:20px; height:1px;
+  background:var(--gold);
+}
+.ac-year {
+  font-family:'Cinzel',serif;
+  font-size:10px;
+  letter-spacing:3px;
+  color:var(--dim);
+}
+
+/* SHIMMER SWEEP */
+.ac::after {
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(125deg, transparent 0%, transparent 40%, rgba(255,220,100,0.05) 50%, transparent 60%, transparent 100%);
+  background-size:300% 300%;
+  opacity:0;
+  transition:opacity 0.5s;
+  z-index:4;
+}
+.ac:hover::after {
+  opacity:1;
+  animation:shimmerSweep 1.5s ease forwards;
+}
+@keyframes shimmerSweep {
+  0%   { background-position:200% 200%; }
+  100% { background-position:-50% -50%; }
+}
+
+/* ======= SCROLL REVEAL ======= */
+.reveal {
+  opacity:0;
+  transform:translateY(50px) scale(0.97);
+  transition:opacity 1s cubic-bezier(0.16,1,0.3,1), transform 1s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.in { opacity:1; transform:translateY(0) scale(1); }
+
+/* ======= FOOTER ======= */
+.footer {
+  position:relative;
+  z-index:1;
+  border-top:1px solid rgba(200,168,75,0.12);
+  background:linear-gradient(to bottom, transparent, rgba(200,168,75,0.03));
+  padding:80px 40px;
+  text-align:center;
+}
+.footer-logo {
+  font-family:'Cinzel Decorative',serif;
+  font-size:28px;
+  background:linear-gradient(135deg,#f5d97a,#c8a84b);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  margin-bottom:12px;
+  letter-spacing:4px;
+}
+.footer-sub { color:var(--dim); font-size:13px; letter-spacing:2px; }
+.footer-div {
+  width:80px; height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  margin:20px auto;
+}
+
+/* ======= RESPONSIVE ======= */
+@media(max-width:900px){
+  .anime-grid { grid-template-columns:1fr; grid-auto-rows:280px; }
+  .ac:nth-child(n){ grid-column:span 1; }
+  .ac:nth-child(1){ grid-row:span 1; }
+}
+
+/* ======= LOADING SCREEN ======= */
+#loader {
+  position:fixed;
+  inset:0;
+  background:var(--bg);
+  z-index:99997;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  transition:opacity 0.8s ease, visibility 0.8s ease;
+}
+#loader.done { opacity:0; visibility:hidden; }
+.loader-text {
+  font-family:'Cinzel Decorative',serif;
+  font-size:clamp(20px,4vw,40px);
+  background:linear-gradient(135deg,#f5d97a,#c8a84b);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  animation:loaderPulse 1.5s ease-in-out infinite;
+  letter-spacing:4px;
+}
+.loader-bar-wrap {
+  width:200px; height:1px;
+  background:rgba(200,168,75,0.15);
+  margin-top:24px;
+  overflow:hidden;
+}
+.loader-bar {
+  height:100%;
+  background:linear-gradient(90deg, var(--gold), var(--gold2));
+  animation:loadBar 1.8s cubic-bezier(0.4,0,0.2,1) forwards;
+}
+@keyframes loadBar { from{width:0} to{width:100%} }
+@keyframes loaderPulse {
+  0%,100%{opacity:0.6} 50%{opacity:1}
+}
+
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-text">ANIME LEGACY</div>
+  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+</div>
+
+<!-- CURSOR -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- PARTICLE CANVAS -->
+<canvas id="particle-canvas"></canvas>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-lines">
+    <span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
+  </div>
+  <div class="hero-circle"></div>
+
+  <div class="hero-content">
+    <span class="hero-eyebrow">The Definitive Anthology &bull; MMXXV</span>
+    <div class="hero-title-wrap">
+      <h1 class="hero-title">افضل عشرة<br>انميات في التاريخ</h1>
+    </div>
+    <p class="hero-subtitle">اعظم اعمال الرسوم المتحركة اليابانية عبر العصور</p>
+    <div class="hero-line-decor">
+      <div class="hdl"></div>
+      <div class="hdd"></div>
+      <div class="hdr"></div>
+    </div>
+  </div>
+
+  <div class="scroll-cue">
+    <p>SCROLL</p>
+    <div class="scroll-bar"></div>
+  </div>
+</section>
+
+<!-- SECTION -->
+<section>
+  <div class="sec-head reveal">
+    <span class="sec-label">Greatest Of All Time</span>
+    <h2 class="sec-title">المختارون للخلود</h2>
+    <p class="sec-desc">اعمال نادرة صنعت تاريخ الانيميشن وغيّرت مفهوم الفن المرئي للابد</p>
+  </div>
+
+  <div class="anime-grid">
+
+    <!-- 1 FMAB -->
+    <div class="ac reveal">
+      <img class="ac-img" src="https://images4.alphacoders.com/136/1365891.png" 
+        onerror="this.src='https://cdn.myanimelist.net/images/anime/1223/96541l.jpg'" alt="FMA">
+      <div class="ac-grad"></div>
+      <div class="ac-glow"></div>
+      <div class="ac-border"></div>
+      <div class="ac-rank">01</div>
+      <div class="ac-info">
+        <span class="ac-genre">Action / Drama / Fantasy</span>
+        <h3 class="ac-title">فولميتال الكيميائي: الاخوة</h3>
+        <p class="ac-en">Fullmetal Alchemist: Brotherhood</p>
+        <p class="ac-desc">ملحمة الاخوين إدوارد وألفونس إلريك في رحلة لاستعادة ما فقداه. قمة فنية خالصة تجمع بين الاكشن المبهر والدراما المؤلمة والفلسفة العميقة في عمل لا يتكرر.</p>
+        <div class="ac-meta">
+          <span class="ac-score">9.1 / 10</span>
+          <span class="ac-year">2009</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 AOT -->
+    <div class="ac reveal">
+      <img class="ac-img" src="https://cdn.myanimelist.net/images/anime/1523/90084l.jpg" 
+        onerror="this.src='https://cdn.myanimelist.net/images/anime/10/47347l.jpg'" alt="AOT">
+      <div class="ac-grad"></div><div class="ac-glow"></div><div class="ac-border"></div>
+      <div class="ac-rank">02</div>
+      <div class="ac-info">
+        <span class="ac-genre">Dark Fantasy / Action</span>
+        <h3 class="ac-title">هجوم العمالقة</h3>
+        <p class="ac-en">Attack on Titan</p>
+        <p class="ac-desc">بنية سردية مذهلة تحوّل الضحية الى جلاد. من اكثر الاعمال تأثيرًا في الجيل الحديث واعظم نهايات في تاريخ الانمي.</p>
+        <div class="ac-meta">
+          <span class="ac-score">9.0 / 10</span>
+          <span class="ac-year">2013</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 EVA -->
+    <div class="ac reveal">
+      <img class="ac-img" src="https://cdn.myanimelist.net/images/anime/1314/108941l.jpg"
+        onerror="this.src='https://upload.wikimedia.org/wikipedia/en/7/70/Neon_Genesis_Evangelion_DVD_v1_cover.jpg'" alt="EVA">
+      <div class="ac-grad"></div><div class="ac-glow"></div><div class="ac-border"></div>
+      <div class="ac-rank">03</div>
+      <div class="ac-info">
+        <span class="ac-genre">Sci-Fi / Psychological</span>
+        <h3 class="ac-title">نيون جينيسيس ايفانجيليون</h3>
+        <p class="ac-en">Neon Genesis Evangelion</p>
+        <p class="ac-desc">تحفة هيديياكي آنو التي غيّرت مفهوم الانمي للابد. اعماق النفس البشرية في حرب كونية.</p>
+        <div class="ac-meta">
+          <span class="ac-score">8.5 / 10</span>
+          <span class="ac-year">1995</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 HxH -->
+    <div class="ac reveal">
+      <img class="ac-img" src="https://cdn.myanimelist.net/images/anime/1208/94745l.jpg"
+        onerror="this.src='https://cdn.myanimelist.net/images/anime/1208/94745l.jpg'" alt="HxH">
+      <div class="ac-grad"></div><div class="ac-glow"></div><div class="ac-border"></div>
+      <div class="ac-rank">04</div>
+      <div class="ac-info">
+        <span class="ac-genre">Adventure / Action</span>
+        <h3 class="ac-title">هانتر هانتر</h3>
+        <p class="ac-en">Hunter x Hunter 2011</p>
+        <p class="ac-desc">رحلة تتحول من مغامرة بريئة الى ملحمة داكنة. نظام "نين" الفريد جعله مرجعًا ابديًا.</p>
+        <div class="ac-meta">
+          <span class="ac-score">9.0 / 10</span>
+          <span class="ac-year">2011</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5 Steins Gate -->
+    <div class="ac reveal">
+      <img class="ac-img" src="https://cdn.myanimelist.net/images/anime/1935/127974l.jpg"
+        onerror="this.src='https://cdn.myanimelist.net/images/anime/5/73199l.jpg'" alt="Steins;Gate">
+      <div class="ac-grad"></div><div class="ac-glow"></div><div class="ac-border"></div>
+      <div class="ac-rank">05</div>
+      <div class="ac-info">
+        <span class="ac-genre">Sci-Fi / Thriller</span>
+        <h3 class="ac-title">ستاينز جيت</h3>
+        <p class="ac-en">Steins;Gate</p>
+        <p class="ac-desc">اروع قصة سفر عبر الزمن في تاريخ الانمي. عبقرية السرد وعمق الشخصيات مرجع ابدي.</p>
+        <div class="ac-meta">
+          <span class="ac-score">9.1 / 10</span>
+          <span class="ac-year">2011</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6 Violet Evergarden -->
+    <div class="ac reveal">
+      <img class="ac-img" src="https://cdn.myanimelist.net/images/anime/1517/100633l.jpg"
+        onerror="this.src='https://cdn.myanimelist.net/images/anime/1450/99518l.jpg'" alt="VE">
+      <div class="ac-grad"></div><div class="ac-glow"></div><div class="ac-border"></div>
+      <div class="ac-rank">06</div>
+      <div class="ac-info">
+        <span class="ac-genre">Drama / Romance</span>
+        <h3 class="ac-title">بنفسجة ايفرغاردن</h3>
+        <p class="ac-en">Violet Evergarden</p>
+        <p class="ac-desc">جمال بصري لا مثيل له من Kyoto Animation. حكاية الحرب والحب والبحث عن معنى "احبك".</p>
+        <div class="ac-meta">
+          <span class="ac-score">8.7 / 10</span>
+          <span class="ac-year">2018</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7 Monster -->
+    <div class="ac reveal">
+      <img class="ac-img" src="https://cdn.myanimelist.net/images/anime/10/18793l.jpg"
+        onerror="this.src='https://cdn.myanimelist.net/images/anime/10/18793l.jpg'" alt="Monster">
+      <div class="ac-grad"></div><div class="ac-glow"></div><div class="ac-border"></div>
+      <div class="ac-rank">07</div>
+      <div class="ac-info">
+        <span class="ac-genre">Mystery / Psychological Thriller</span>
+        <h3 class="ac-title">الوحش</h3>
+        <p class="ac-en">Monster</p>
+        <p class="ac-desc">من اعمق الاعمال النفسية. جراح يطارد وحشًا بشريًا خلقه بنفسه. تحفة تغير نظرتك للخير والشر.</p>
+        <div class="ac-meta">
+          <span class="ac-score">8.9 / 10</span>
+          <span class="ac-year">2004</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8 Death Note -->
+    <div class="ac reveal">
+      <img class="ac-img" src="https://cdn.myanimelist.net/images/anime/9/9453l.jpg"
+        onerror="this.src='https://cdn.myanimelist.net/images/anime/9/9453l.jpg'" alt="Death Note">
+      <div class="ac-grad"></div><div class="ac-glow"></div><div class="ac-border"></div>
+      <div class="ac-rank">08</div>
+      <div class="ac-info">
+        <span class="ac-genre">Mystery / Psychological</span>
+        <h3 class="ac-title">دفتر الموت</h3>
+        <p class="ac-en">Death Note</p>
+        <p class="ac-desc">لعبة شطرنج عقلية خالدة بين عبقريين. الصراع بين لايت وL ذروة التشويق في تاريخ الانيميشن.</p>
+        <div class="ac-meta">
+          <span class="ac-score">8.6 / 10</span>
+          <span class="ac-year">2006</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9 Gintama -->
+    <div class="ac reveal">
+      <img class="ac-img" src="https://cdn.myanimelist.net/images/anime/3/72078l.jpg"
+        onerror="this.src='https://cdn.myanimelist.net/images/anime/3/72078l.jpg'" alt="Gintama">
+      <div class="ac-grad"></div><div class="ac-glow"></div><div class="ac-border"></div>
+      <div class="ac-rank">09</div>
+      <div class="ac-info">
+        <span class="ac-genre">Comedy / Action / Drama</span>
+        <h3 class="ac-title">جينتاما</h3>
+        <p class="ac-en">Gintama</p>
+        <p class="ac-desc">الانمي الوحيد في التاريخ الذي يجمع بين ان تموت ضحكًا وان تبكي دمًا في الحلقة ذاتها. فريد من نوعه تمامًا.</p>
+        <div class="ac-meta">
+          <span class="ac-score">9.0 / 10</span>
+          <span class="ac-year">2006</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10 Vinland Saga -->
+    <div class="ac reveal">
+      <img class="ac-img" src="https://cdn.myanimelist.net/images/anime/1500/103005l.jpg"
+        onerror="this.src='https://cdn.myanimelist.net/images/anime/1500/103005l.jpg'" alt="Vinland">
+      <div class="ac-grad"></div><div class="ac-glow"></div><div class="ac-border"></div>
+      <div class="ac-rank">10</div>
+      <div class="ac-info">
+        <span class="ac-genre">Historical / Action / Drama</span>
+        <h3 class="ac-title">ملحمة فينلاند</h3>
+        <p class="ac-en">Vinland Saga</p>
+        <p class="ac-desc">ملحمة فايكنغية تتحول من انتقام الى بحث عن السلام. اروع ما قدّمه الانمي في تصوير نمو الشخصية.</p>
+        <div class="ac-meta">
+          <span class="ac-score">8.7 / 10</span>
+          <span class="ac-year">2019</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-logo">ANIME LEGACY</div>
+  <div class="footer-div"></div>
+  <p class="footer-sub">اعظم اعمال الرسوم المتحركة اليابانية &mdash; مختارة بعناية وحب</p>
+</footer>
+
+<!-- ======= JS ======= -->
+<script>
+/* ---- LOADER ---- */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('done');
+  }, 2000);
+});
+
+/* ---- CURSOR ---- */
+const cur = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx=0,my=0, rx=0,ry=0;
+document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+(function animCursor(){
+  rx += (mx-rx)*0.18;
+  ry += (my-ry)*0.18;
+  cur.style.left  = mx+'px';
+  cur.style.top   = my+'px';
+  ring.style.left = rx+'px';
+  ring.style.top  = ry+'px';
+  requestAnimationFrame(animCursor);
+})();
+
+/* ---- PARTICLE SYSTEM ---- */
+const canvas = document.getElementById('particle-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, particles=[];
+
+function resize(){
+  W=canvas.width=window.innerWidth;
+  H=canvas.height=window.innerHeight;
+}
+resize();
+window.addEventListener('resize',resize);
+
+class Particle{
+  constructor(){
+    this.x=Math.random()*W;
+    this.y=Math.random()*H;
+    this.vx=(Math.random()-0.5)*0.3;
+    this.vy=(Math.random()-0.5)*0.3 - 0.1;
+    this.r=Math.random()*1.5+0.3;
+    this.alpha=Math.random()*0.6+0.1;
+    this.color= Math.random()>0.6 
+      ? `rgba(200,168,75,${this.alpha})` 
+      : `rgba(180,160,220,${this.alpha*0.4})`;
+    this.life=0;
+    this.maxLife=200+Math.random()*300;
+  }
+  update(){
+    this.x+=this.vx;
+    this.y+=this.vy;
+    this.life++;
+    if(this.life>this.maxLife||this.y<-10||this.x<-10||this.x>W+10){
+      this.x=Math.random()*W;
+      this.y=H+10;
+      this.life=0;
+    }
+  }
+  draw(){
+    const progress=this.life/this.maxLife;
+    const a=progress<0.1?progress*10:progress>0.9?(1-progress)*10:1;
+    ctx.beginPath();
+    ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+    ctx.fillStyle=this.color.replace(/[\d.]+\)$/,`${this.alpha*a})`);
+    ctx.fill();
+  }
+}
+
+for(let i=0;i<180;i++) particles.push(new Particle());
+
+/* connection lines */
+function drawLines(){
+  for(let i=0;i<particles.length;i++){
+    for(let j=i+1;j<particles.length;j++){
+      const dx=particles[i].x-particles[j].x;
+      const dy=particles[i].y-particles[j].y;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<100){
+        const a=(1-dist/100)*0.08;
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x,particles[i].y);
+        ctx.lineTo(particles[j].x,particles[j].y);
+        ctx.strokeStyle=`rgba(200,168,75,${a})`;
+        ctx.lineWidth=0.5;
+        ctx.stroke();
+      }
+    }
+  }
+}
+
+function animParticles(){
+  ctx.clearRect(0,0,W,H);
+  particles.forEach(p=>{ p.update(); p.draw(); });
+  drawLines();
+  requestAnimationFrame(animParticles);
+}
+animParticles();
+
+/* ---- SCROLL REVEAL ---- */
+const revEls = document.querySelectorAll('.reveal');
+const revObs = new IntersectionObserver((entries) => {
+  entries.forEach((e,i) => {
+    if(e.isIntersecting){
+      e.target.style.transitionDelay = (parseInt(e.target.dataset.delay)||0) + 'ms';
+      e.target.classList.add('in');
+    }
+  });
+},{threshold:0.08});
+revEls.forEach((el,i)=>{
+  el.dataset.delay = (i%4)*80;
+  revObs.observe(el);
+});
+
+/* ---- 3D CARD TILT ---- */
+document.querySelectorAll('.ac').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top)  / rect.height - 0.5;
+    card.style.transform = `perspective(1000px) rotateY(${x*6}deg) rotateX(${-y*4}deg) scale(1.01)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transition = 'transform 0.8s cubic-bezier(0.16,1,0.3,1)';
+    card.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1)';
+    setTimeout(()=>card.style.transition='',800);
+  });
+  card.addEventListener('mouseenter', () => {
+    card.style.transition = 'transform 0.1s ease';
+  });
+});
+
+/* ---- PARALLAX HERO CIRCLE ---- */
+window.addEventListener('scroll',()=>{
+  const s=window.scrollY;
+  const c=document.querySelector('.hero-circle');
+  if(c) c.style.transform=`translate(-50%,-50%) rotate(${s*0.05}deg) scale(${1+s*0.0002})`;
+});
+</script>
+</body>
+</html>

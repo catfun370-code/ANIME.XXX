@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANIME IMMORTALS</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Noto+Naskh+Arabic:wght@400;600;700&family=Josefin+Sans:wght@100;300;400;700&family=IM+Fell+English:ital@1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#f5f0e8;
+  --ink:#0d0b08;
+  --gold:#b8962e;
+  --gold2:#e8c84a;
+  --rust:#8b2020;
+}
+html,body{width:100%;height:100%;overflow:hidden}
+body{
+  background:var(--ink);
+  font-family:'Noto Naskh Arabic',serif;
+  cursor:none;
+  color:var(--cream);
+}
+
+/* ── CURSOR ── */
+#c1,#c2{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;top:0;left:0;will-change:transform}
+#c1{width:6px;height:6px;background:var(--cream);margin:-3px 0 0 -3px;transition:width .3s,height .3s,background .3s,margin .3s}
+#c2{width:32px;height:32px;border:1px solid rgba(245,240,232,.3);margin:-16px 0 0 -16px;transition:width .5s,height .5s,margin .5s,border-color .5s}
+
+/* ── AURORA CANVAS ── */
+#aurora{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* ── GRAIN ── */
+body::after{
+  content:'';position:fixed;inset:0;z-index:1;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='.04'/%3E%3C/svg%3E");
+  opacity:.5;animation:grain .8s steps(3) infinite
+}
+@keyframes grain{0%{transform:translate(0,0)}33%{transform:translate(-1%,1%)}66%{transform:translate(1%,-1%)}100%{transform:translate(0,0)}}
+
+/* ── LOADER ── */
+#loader{
+  position:fixed;inset:0;z-index:99999;
+  background:var(--ink);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;
+  transition:clip-path 1.2s cubic-bezier(.77,0,.18,1) .2s;
+  clip-path:polygon(0 0,100% 0,100% 100%,0 100%)
+}
+#loader.out{clip-path:polygon(0 0,100% 0,100% 0,0 0)}
+.ld-title{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:clamp(24px,5vw,64px);
+  color:var(--cream);
+  letter-spacing:.1em;
+  overflow:hidden;
+}
+.ld-title span{display:block;animation:ldslide 1s cubic-bezier(.16,1,.3,1) .2s both}
+@keyframes ldslide{from{transform:translateY(110%)}to{transform:translateY(0)}}
+.ld-bar{width:clamp(160px,30vw,300px);height:1px;background:rgba(245,240,232,.1);margin-top:32px;overflow:hidden}
+.ld-fill{height:100%;background:var(--cream);animation:ldfill 1.6s cubic-bezier(.4,0,.2,1) .4s both}
+@keyframes ldfill{from{transform:translateX(-100%)}to{transform:translateX(0)}}
+.ld-sub{font-family:'Josefin Sans',sans-serif;font-size:10px;letter-spacing:.5em;color:rgba(245,240,232,.3);margin-top:20px;animation:ldfade 1s ease 1s both}
+@keyframes ldfade{from{opacity:0}to{opacity:1}}
+
+/* ── MAIN CONTAINER ── */
+#app{
+  position:fixed;inset:0;z-index:2;
+  display:flex;align-items:stretch;
+}
+
+/* ── LEFT PANEL (fixed info) ── */
+#panel{
+  position:relative;z-index:10;
+  width:clamp(320px,35vw,520px);
+  flex-shrink:0;
+  display:flex;flex-direction:column;justify-content:space-between;
+  padding:clamp(40px,5vw,70px) clamp(32px,4vw,60px);
+  border-right:1px solid rgba(245,240,232,.06);
+  background:linear-gradient(135deg,rgba(13,11,8,.98),rgba(13,11,8,.9));
+  overflow:hidden;
+}
+
+/* Panel top header */
+.panel-header{position:relative}
+.ph-eyebrow{
+  font-family:'Josefin Sans',sans-serif;
+  font-weight:100;font-size:9px;letter-spacing:.6em;
+  color:rgba(245,240,232,.3);margin-bottom:28px;display:block
+}
+.ph-logo{
+  font-family:'Playfair Display',serif;
+  font-weight:900;font-style:italic;
+  font-size:clamp(28px,3vw,42px);
+  line-height:1;
+  background:linear-gradient(135deg,var(--cream) 0%,rgba(245,240,232,.5) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.ph-sub{
+  font-family:'Josefin Sans',sans-serif;font-weight:300;
+  font-size:9px;letter-spacing:.4em;color:rgba(245,240,232,.25);
+  margin-top:10px;display:block
+}
+.ph-line{
+  width:48px;height:1px;background:rgba(245,240,232,.15);margin-top:24px
+}
+
+/* Panel main info area */
+#info-box{flex:1;display:flex;flex-direction:column;justify-content:center;padding:40px 0}
+
+.ib-num{
+  font-family:'Playfair Display',serif;
+  font-style:italic;font-weight:400;
+  font-size:clamp(80px,10vw,140px);
+  line-height:1;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(245,240,232,.08);
+  display:block;margin-bottom:-16px;margin-right:-8px;
+  transition:all .8s cubic-bezier(.16,1,.3,1);
+  user-select:none
+}
+
+.ib-genre{
+  font-family:'Josefin Sans',sans-serif;font-weight:300;
+  font-size:9px;letter-spacing:.5em;
+  color:rgba(245,240,232,.35);
+  margin-bottom:16px;display:block;
+  transition:opacity .6s ease;
+}
+
+.ib-title-ar{
+  font-family:'Noto Naskh Arabic',serif;
+  font-weight:700;
+  font-size:clamp(24px,3.5vw,44px);
+  line-height:1.2;
+  color:var(--cream);
+  direction:rtl;
+  min-height:1.5em;
+}
+.ib-title-ar .typed-cursor{
+  display:inline-block;
+  width:2px;height:.85em;
+  background:var(--cream);
+  vertical-align:text-bottom;
+  animation:blink .7s steps(1) infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+.ib-title-en{
+  font-family:'Josefin Sans',sans-serif;font-weight:100;
+  font-size:clamp(10px,1.2vw,13px);letter-spacing:.4em;
+  color:rgba(245,240,232,.3);margin-top:10px;
+  min-height:1.5em;
+}
+
+.ib-divider{
+  width:0;height:1px;margin:28px 0;
+  background:linear-gradient(90deg,rgba(245,240,232,.15),transparent);
+  transition:width 1s cubic-bezier(.16,1,.3,1) .3s;
+}
+.ib-divider.open{width:100%}
+
+.ib-desc{
+  font-size:clamp(12px,1.3vw,15px);
+  line-height:2;
+  color:rgba(245,240,232,.55);
+  min-height:5em;
+  transition:opacity .6s ease .4s;
+}
+
+.ib-score-row{
+  display:flex;align-items:baseline;gap:16px;
+  margin-top:28px;
+  opacity:0;transform:translateY(10px);
+  transition:opacity .7s ease .5s, transform .7s ease .5s;
+}
+.ib-score-row.show{opacity:1;transform:translateY(0)}
+
+.ib-score{
+  font-family:'Playfair Display',serif;font-weight:900;
+  font-size:clamp(32px,4vw,52px);
+  line-height:1;
+}
+.ib-score-sub{
+  font-family:'Josefin Sans',sans-serif;font-weight:100;
+  font-size:9px;letter-spacing:.4em;
+  color:rgba(245,240,232,.3);
+}
+.ib-year{
+  font-family:'Josefin Sans',sans-serif;font-weight:300;
+  font-size:11px;letter-spacing:.3em;
+  color:rgba(245,240,232,.25);
+  margin-right:auto;
+}
+
+/* Panel bottom nav */
+#panel-nav{
+  display:flex;align-items:center;justify-content:space-between;
+}
+.pn-count{
+  font-family:'Josefin Sans',sans-serif;font-weight:100;
+  font-size:11px;letter-spacing:.3em;
+  color:rgba(245,240,232,.25);
+}
+.pn-count strong{color:var(--cream);font-weight:400;font-size:16px}
+.pn-arrows{display:flex;gap:12px}
+.pn-btn{
+  width:44px;height:44px;
+  border:1px solid rgba(245,240,232,.12);
+  background:transparent;
+  color:rgba(245,240,232,.5);
+  font-size:14px;
+  cursor:none;
+  transition:all .3s;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Josefin Sans',sans-serif;
+}
+.pn-btn:hover{border-color:var(--cream);color:var(--cream);background:rgba(245,240,232,.04)}
+
+/* ── RIGHT VISUAL AREA ── */
+#visual{
+  flex:1;position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* Main image display */
+#img-stage{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.img-frame{
+  position:absolute;inset:0;
+  transition:opacity .8s ease,transform 1.2s cubic-bezier(.16,1,.3,1);
+  opacity:0;transform:scale(1.06) translateX(30px);
+  pointer-events:none;
+}
+.img-frame.active{opacity:1;transform:scale(1) translateX(0)}
+.img-frame.exit{opacity:0;transform:scale(.96) translateX(-30px)}
+.img-frame img{
+  width:100%;height:100%;object-fit:cover;
+  filter:brightness(.45) saturate(.7) contrast(1.1);
+}
+
+/* Overlay layers */
+.img-frame::before{
+  content:'';position:absolute;inset:0;z-index:2;
+  background:linear-gradient(90deg,rgba(13,11,8,.95) 0%,rgba(13,11,8,.4) 35%,rgba(13,11,8,.1) 60%,rgba(13,11,8,.5) 100%);
+}
+.img-frame::after{
+  content:'';position:absolute;inset:0;z-index:3;
+  background:linear-gradient(to bottom,rgba(13,11,8,.3) 0%,transparent 30%,transparent 70%,rgba(13,11,8,.6) 100%);
+}
+
+/* Big rank watermark on image */
+.img-rank{
+  position:absolute;top:clamp(20px,4vw,50px);right:clamp(20px,4vw,50px);
+  z-index:10;
+  font-family:'Playfair Display',serif;font-style:italic;font-weight:900;
+  font-size:clamp(80px,14vw,180px);
+  color:transparent;
+  -webkit-text-stroke:1px rgba(245,240,232,.07);
+  line-height:1;user-select:none;pointer-events:none;
+  transition:-webkit-text-stroke .6s;
+}
+
+/* ── PROGRESS DOTS ── */
+#dots{
+  position:absolute;bottom:clamp(24px,4vw,40px);left:50%;transform:translateX(-50%);
+  display:flex;gap:10px;z-index:20;
+}
+.dot{
+  width:4px;height:4px;border-radius:50%;
+  background:rgba(245,240,232,.2);
+  cursor:none;transition:all .4s;
+}
+.dot.on{
+  background:var(--cream);width:24px;border-radius:2px;
+}
+
+/* ── SCROLL LINES ── */
+.vline{
+  position:absolute;
+  width:1px;
+  background:linear-gradient(to bottom,transparent,rgba(245,240,232,.06),transparent);
+  pointer-events:none;z-index:4;
+}
+
+/* ── ANIMATED SCAN LINE ── */
+#scanline{
+  position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,rgba(245,240,232,.03),transparent);
+  z-index:15;pointer-events:none;
+  animation:scan 8s linear infinite;
+}
+@keyframes scan{from{top:0}to{top:100%}}
+
+/* ── COLOR ACCENT FLASH ── */
+#accent-flash{
+  position:absolute;inset:0;z-index:5;pointer-events:none;
+  opacity:0;transition:opacity .15s;
+  mix-blend-mode:color;
+}
+
+/* ── TRANSITION WIPE ── */
+#wipe{
+  position:absolute;
+  top:0;bottom:0;right:0;
+  width:0;z-index:20;
+  background:var(--ink);
+  pointer-events:none;
+}
+
+/* ── SIDE SCROLL HINT ── */
+#hint{
+  position:absolute;right:clamp(20px,3vw,40px);bottom:clamp(30px,5vw,60px);
+  z-index:20;
+  writing-mode:vertical-rl;
+  font-family:'Josefin Sans',sans-serif;font-weight:100;
+  font-size:9px;letter-spacing:.4em;
+  color:rgba(245,240,232,.2);
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+}
+.hint-arrow{
+  display:block;width:1px;height:40px;
+  background:linear-gradient(to bottom,rgba(245,240,232,.2),transparent);
+  animation:hintpulse 2s ease infinite;
+}
+@keyframes hintpulse{0%,100%{transform:scaleY(1);opacity:.4}50%{transform:scaleY(1.2);opacity:1}}
+
+/* ── TOP BAR ── */
+#topbar{
+  position:absolute;top:clamp(20px,3vw,36px);
+  left:clamp(20px,3vw,40px);right:clamp(20px,3vw,40px);
+  display:flex;justify-content:space-between;align-items:center;
+  z-index:20;pointer-events:none;
+}
+.tb-left,.tb-right{
+  font-family:'Josefin Sans',sans-serif;font-weight:100;
+  font-size:9px;letter-spacing:.4em;
+  color:rgba(245,240,232,.2);
+}
+
+/* Progress bar top */
+#prog{
+  position:fixed;top:0;left:0;z-index:9990;
+  height:1px;background:rgba(245,240,232,.08);width:100%;
+}
+#prog-fill{height:100%;background:var(--cream);width:0;transition:width .6s ease}
+
+/* responsive */
+@media(max-width:700px){
+  #panel{width:100%;position:absolute;bottom:0;left:0;right:0;height:55%;z-index:10;border-right:none;border-top:1px solid rgba(245,240,232,.06)}
+  #visual{position:absolute;top:0;left:0;right:0;height:48%}
+  #app{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="ld-title"><span>ANIME IMMORTALS</span></div>
+  <div class="ld-bar"><div class="ld-fill"></div></div>
+  <div class="ld-sub">أعظم عشرة في التاريخ</div>
+</div>
+
+<!-- AURORA -->
+<canvas id="aurora"></canvas>
+
+<!-- PROGRESS -->
+<div id="prog"><div id="prog-fill"></div></div>
+
+<!-- CURSOR -->
+<div id="c1"></div><div id="c2"></div>
+
+<!-- APP -->
+<div id="app">
+
+  <!-- LEFT PANEL -->
+  <div id="panel">
+
+    <div class="panel-header">
+      <span class="ph-eyebrow">THE DEFINITIVE ANTHOLOGY · MMXXV</span>
+      <div class="ph-logo">ANIME<br>IMMORTALS</div>
+      <span class="ph-sub">أعظم عشرة أعمال في تاريخ الرسوم المتحركة اليابانية</span>
+      <div class="ph-line"></div>
+    </div>
+
+    <div id="info-box">
+      <div class="ib-num" id="ib-num">01</div>
+      <span class="ib-genre" id="ib-genre">Action · Drama · Fantasy</span>
+      <div class="ib-title-ar" id="ib-title-ar"><span class="typed-cursor"></span></div>
+      <div class="ib-title-en" id="ib-title-en"></div>
+      <div class="ib-divider" id="ib-divider"></div>
+      <p class="ib-desc" id="ib-desc"></p>
+      <div class="ib-score-row" id="ib-score-row">
+        <div>
+          <div class="ib-score" id="ib-score">9.1</div>
+          <div class="ib-score-sub">MAL SCORE</div>
+        </div>
+        <div class="ib-year" id="ib-year">2009</div>
+      </div>
+    </div>
+
+    <div id="panel-nav">
+      <div class="pn-count"><strong id="pn-cur">1</strong> &nbsp;/&nbsp; 10</div>
+      <div class="pn-arrows">
+        <button class="pn-btn" id="btn-prev">&#8592;</button>
+        <button class="pn-btn" id="btn-next">&#8594;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT VISUAL -->
+  <div id="visual">
+
+    <div id="topbar">
+      <span class="tb-left" id="tb-left">FULLMETAL ALCHEMIST</span>
+      <span class="tb-right" id="tb-right">2009 · BONES STUDIO</span>
+    </div>
+
+    <div id="img-stage">
+      <!-- frames injected by JS -->
+    </div>
+
+    <div class="img-rank" id="img-rank">01</div>
+
+    <div id="dots"></div>
+    <div id="scanline"></div>
+
+    <div id="hint">
+      <span>NAVIGATE</span>
+      <span class="hint-arrow"></span>
+    </div>
+
+    <!-- vertical decorative lines -->
+    <div class="vline" style="left:25%;top:0;height:100%"></div>
+    <div class="vline" style="left:65%;top:0;height:100%"></div>
+    <div class="vline" style="left:85%;top:0;height:100%"></div>
+  </div>
+
+</div>
+
+<script>
+/* ─────────── DATA ─────────── */
+const DATA = [
+  {
+    title:"فولميتال الكيميائي: الأخوة",
+    en:"FULLMETAL ALCHEMIST: BROTHERHOOD",
+    genre:"Action · Drama · Fantasy",
+    desc:"ملحمة الأخوين إدوارد وألفونس إلريك في رحلة لاستعادة ما فقداه. قمة فنية خالصة تجمع الأكشن المبهر بالدراما المؤلمة والفلسفة العميقة في عمل لا يتكرر.",
+    score:"9.1",year:"2009",studio:"BONES STUDIO",
+    img:"https://images4.alphacoders.com/136/1365891.png",
+    fb:"https://cdn.myanimelist.net/images/anime/1223/96541l.jpg",
+    color:[200,140,40]
+  },
+  {
+    title:"هجوم العمالقة",
+    en:"ATTACK ON TITAN",
+    genre:"Dark Fantasy · Action · Tragedy",
+    desc:"بنية سردية مذهلة تحوّل الضحية إلى جلاد والحلم إلى كابوس. أعمق سؤال طرحه الأنمي عن الحرية والبقاء والثمن الذي يدفعه الإنسان.",
+    score:"9.0",year:"2013",studio:"WIT / MAPPA",
+    img:"https://cdn.myanimelist.net/images/anime/1523/90084l.jpg",
+    fb:"https://cdn.myanimelist.net/images/anime/10/47347l.jpg",
+    color:[160,40,40]
+  },
+  {
+    title:"نيون جينيسيس إيفانجيليون",
+    en:"NEON GENESIS EVANGELION",
+    genre:"Sci-Fi · Psychological · Mecha",
+    desc:"تحفة هيديياكي آنو التي غيّرت مفهوم الأنمي للأبد. اعتراف صريح بالكسر النفسي البشري داخل حرب كونية. لا يوجد عمل يشبهه.",
+    score:"8.5",year:"1995",studio:"GAINAX",
+    img:"https://cdn.myanimelist.net/images/anime/1314/108941l.jpg",
+    fb:"https://cdn.myanimelist.net/images/anime/9/9453l.jpg",
+    color:[40,80,160]
+  },
+  {
+    title:"هانتر هانتر",
+    en:"HUNTER × HUNTER 2011",
+    genre:"Adventure · Action · Dark",
+    desc:"رحلة تبدأ بسذاجة ساحرة وتنتهي بظلام فلسفي عميق. نظام النين هو أذكى نظام قوى في تاريخ الأنمي على الإطلاق.",
+    score:"9.0",year:"2011",studio:"MADHOUSE",
+    img:"https://cdn.myanimelist.net/images/anime/1208/94745l.jpg",
+    fb:"https://cdn.myanimelist.net/images/anime/1208/94745l.jpg",
+    color:[30,140,70]
+  },
+  {
+    title:"ستاينز جيت",
+    en:"STEINS;GATE",
+    genre:"Sci-Fi · Thriller · Romance",
+    desc:"أروع قصة سفر عبر الزمن في تاريخ البشرية. عبقرية السرد في البناء البطيء ثم الانهيار المفاجئ المدمر.",
+    score:"9.1",year:"2011",studio:"WHITE FOX",
+    img:"https://cdn.myanimelist.net/images/anime/1935/127974l.jpg",
+    fb:"https://cdn.myanimelist.net/images/anime/5/73199l.jpg",
+    color:[120,40,180]
+  },
+  {
+    title:"بنفسجة إيفرغاردن",
+    en:"VIOLET EVERGARDEN",
+    genre:"Drama · Romance · War",
+    desc:"تحفة Kyoto Animation البصرية الخالدة. فتاة آلية تبحث في كل رسالة عن معنى كلمة أحبك. جمال لا يوصف بل يُرى ويُبكى.",
+    score:"8.7",year:"2018",studio:"KYOTO ANIMATION",
+    img:"https://cdn.myanimelist.net/images/anime/1517/100633l.jpg",
+    fb:"https://cdn.myanimelist.net/images/anime/1450/99518l.jpg",
+    color:[50,100,180]
+  },
+  {
+    title:"الوحش",
+    en:"MONSTER",
+    genre:"Mystery · Psychological · Thriller",
+    desc:"جراح أنقذ وحشاً فباتت يداه ملطختان بدمائه. نائومي أوراساوا يرسم سؤالاً فلسفياً لا إجابة له عن الخير والشر.",
+    score:"8.9",year:"2004",studio:"MADHOUSE",
+    img:"https://cdn.myanimelist.net/images/anime/10/18793l.jpg",
+    fb:"https://cdn.myanimelist.net/images/anime/10/18793l.jpg",
+    color:[70,70,90]
+  },
+  {
+    title:"جينتاما",
+    en:"GINTAMA",
+    genre:"Comedy · Action · Drama",
+    desc:"العمل الوحيد الذي يجعلك تموت ضحكاً وتبكي دماً في الحلقة ذاتها. سوروزا جينتوكي من أكثر الشخصيات إنسانية في كل التاريخ.",
+    score:"9.0",year:"2006",studio:"SUNRISE",
+    img:"https://cdn.myanimelist.net/images/anime/3/72078l.jpg",
+    fb:"https://cdn.myanimelist.net/images/anime/3/72078l.jpg",
+    color:[180,140,20]
+  },
+  {
+    title:"دفتر الموت",
+    en:"DEATH NOTE",
+    genre:"Mystery · Psychological · Thriller",
+    desc:"لعبة شطرنج عقلية خالدة بين عبقريين. الصراع بين لايت ياغامي وL هو ذروة التشويق في تاريخ الأنيميشن.",
+    score:"8.6",year:"2006",studio:"MADHOUSE",
+    img:"https://cdn.myanimelist.net/images/anime/9/9453l.jpg",
+    fb:"https://cdn.myanimelist.net/images/anime/9/9453l.jpg",
+    color:[40,40,120]
+  },
+  {
+    title:"ملحمة فينلاند",
+    en:"VINLAND SAGA",
+    genre:"Historical · Action · Drama",
+    desc:"ملحمة فايكينجية تتحول من انتقام محترق إلى بحث صادق عن السلام الحقيقي. من أجمل رحلات النمو في تاريخ الأنمي.",
+    score:"8.7",year:"2019",studio:"WIT STUDIO",
+    img:"https://cdn.myanimelist.net/images/anime/1500/103005l.jpg",
+    fb:"https://cdn.myanimelist.net/images/anime/1500/103005l.jpg",
+    color:[30,70,110]
+  }
+];
+
+/* ─────────── AURORA CANVAS ─────────── */
+const aCanvas = document.getElementById('aurora');
+const aCtx = aCanvas.getContext('2d');
+let aW, aH;
+function aResize(){ aW = aCanvas.width = innerWidth; aH = aCanvas.height = innerHeight; }
+aResize(); window.addEventListener('resize', aResize);
+
+let currentColor = [200,140,40];
+let targetColor  = [200,140,40];
+let lerpColor    = [200,140,40];
+
+const blobs = Array.from({length:6},(_,i)=>({
+  x: 0.2 + Math.random()*.6,
+  y: 0.2 + Math.random()*.6,
+  r: 0.2 + Math.random()*.25,
+  vx:(Math.random()-.5)*.0004,
+  vy:(Math.random()-.5)*.0004,
+  phase: Math.random()*Math.PI*2,
+  speed: .0005 + Math.random()*.001
+}));
+
+let aT = 0;
+function drawAurora(){
+  aCtx.clearRect(0,0,aW,aH);
+  aCtx.fillStyle='#0d0b08';
+  aCtx.fillRect(0,0,aW,aH);
+
+  // lerp color
+  lerpColor[0] += (targetColor[0]-lerpColor[0])*.01;
+  lerpColor[1] += (targetColor[1]-lerpColor[1])*.01;
+  lerpColor[2] += (targetColor[2]-lerpColor[2])*.01;
+  const [r,g,b] = lerpColor;
+
+  blobs.forEach((blob,i)=>{
+    blob.phase += blob.speed;
+    blob.x += blob.vx + Math.sin(blob.phase+i)*.0002;
+    blob.y += blob.vy + Math.cos(blob.phase+i*.7)*.0002;
+    if(blob.x<.1||blob.x>.9) blob.vx*=-1;
+    if(blob.y<.1||blob.y>.9) blob.vy*=-1;
+
+    const pulse = .04 + Math.sin(blob.phase)*.015;
+    const grd = aCtx.createRadialGradient(
+      blob.x*aW, blob.y*aH, 0,
+      blob.x*aW, blob.y*aH, blob.r*Math.max(aW,aH)
+    );
+    const intensity = i<3 ? pulse : pulse*.5;
+    grd.addColorStop(0,  `rgba(${r},${g},${b},${intensity})`);
+    grd.addColorStop(.5, `rgba(${Math.min(255,r+30)},${g},${Math.min(255,b+40)},${intensity*.3})`);
+    grd.addColorStop(1,  `rgba(${r},${g},${b},0)`);
+    aCtx.fillStyle = grd;
+    aCtx.fillRect(0,0,aW,aH);
+  });
+  aT++;
+  requestAnimationFrame(drawAurora);
+}
+drawAurora();
+
+/* ─────────── BUILD FRAMES & DOTS ─────────── */
+const stage = document.getElementById('img-stage');
+const dotsEl = document.getElementById('dots');
+
+DATA.forEach((d,i)=>{
+  const fr = document.createElement('div');
+  fr.className = 'img-frame';
+  fr.id = 'fr'+i;
+  const img = document.createElement('img');
+  img.src = d.img;
+  img.alt = d.title;
+  img.onerror = ()=>{ img.src=d.fb };
+  fr.appendChild(img);
+  stage.appendChild(fr);
+
+  const dot = document.createElement('div');
+  dot.className='dot'; dot.dataset.i=i;
+  dot.addEventListener('click',()=>goTo(i));
+  dotsEl.appendChild(dot);
+});
+
+/* ─────────── TYPEWRITER ─────────── */
+let typeTimer = null;
+function typeWrite(el, text, speed=45){
+  if(typeTimer) clearInterval(typeTimer);
+  el.innerHTML = '<span class="typed-cursor"></span>';
+  let i=0;
+  typeTimer = setInterval(()=>{
+    if(i>=text.length){ clearInterval(typeTimer); return; }
+    const cursor = el.querySelector('.typed-cursor');
+    el.insertBefore(document.createTextNode(text[i]), cursor);
+    i++;
+  }, speed);
+}
+
+/* ─────────── STATE ─────────── */
+let cur = 0;
+let transitioning = false;
+
+function goTo(idx, dir=1){
+  if(transitioning || idx===cur) return;
+  transitioning = true;
+
+  // wipe out old
+  const oldFr = document.getElementById('fr'+cur);
+  oldFr.classList.remove('active');
+  oldFr.classList.add('exit');
+  setTimeout(()=>{ oldFr.classList.remove('exit'); }, 1200);
+
+  cur = idx;
+  const d = DATA[cur];
+  const newFr = document.getElementById('fr'+cur);
+
+  // Update aurora target color
+  targetColor = [...d.color];
+
+  // Activate new frame after small delay
+  setTimeout(()=>{
+    newFr.classList.add('active');
+    transitioning = false;
+  }, 80);
+
+  // Panel updates
+  const numEl    = document.getElementById('ib-num');
+  const genreEl  = document.getElementById('ib-genre');
+  const titleEl  = document.getElementById('ib-title-ar');
+  const enEl     = document.getElementById('ib-title-en');
+  const descEl   = document.getElementById('ib-desc');
+  const scoreEl  = document.getElementById('ib-score');
+  const yearEl   = document.getElementById('ib-year');
+  const divEl    = document.getElementById('ib-divider');
+  const scoreRow = document.getElementById('ib-score-row');
+  const rankEl   = document.getElementById('img-rank');
+  const pnCur    = document.getElementById('pn-cur');
+  const tbLeft   = document.getElementById('tb-left');
+  const tbRight  = document.getElementById('tb-right');
+
+  // Fade out
+  [genreEl,descEl,enEl,numEl].forEach(e=>{ e.style.opacity='0'; e.style.transform='translateY(8px)'; });
+  divEl.classList.remove('open');
+  scoreRow.classList.remove('show');
+  numEl.style.webkitTextStroke='1px rgba(245,240,232,.04)';
+
+  const numStr = String(cur+1).padStart(2,'0');
+  pnCur.textContent = cur+1;
+  rankEl.textContent = numStr;
+  document.getElementById('prog-fill').style.width = ((cur+1)/10*100)+'%';
+
+  // Dots
+  document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('on',i===cur));
+
+  setTimeout(()=>{
+    numEl.textContent = numStr;
+    numEl.style.opacity='1'; numEl.style.transform='translateY(0)';
+    numEl.style.webkitTextStroke='1px rgba(245,240,232,.08)';
+
+    genreEl.textContent = d.genre;
+    genreEl.style.opacity='1'; genreEl.style.transform='translateY(0)';
+
+    typeWrite(titleEl, d.title);
+
+    enEl.textContent = d.en;
+    enEl.style.opacity='1'; enEl.style.transform='translateY(0)';
+
+    descEl.style.opacity='0';
+    descEl.textContent = d.desc;
+    setTimeout(()=>{ descEl.style.opacity='1'; descEl.style.transform='translateY(0)'; },200);
+
+    divEl.classList.add('open');
+    setTimeout(()=>scoreRow.classList.add('show'), 400);
+
+    scoreEl.textContent = d.score;
+    yearEl.textContent  = d.year;
+    tbLeft.textContent  = d.en.split(':')[0];
+    tbRight.textContent = d.year+' · '+d.studio;
+  }, 150);
+
+  // transitions
+  [genreEl,descEl,numEl].forEach(e=>{
+    e.style.transition='opacity .5s ease, transform .5s ease';
+  });
+}
+
+/* ─────────── INIT ─────────── */
+function init(){
+  document.getElementById('fr0').classList.add('active');
+  document.querySelectorAll('.dot')[0].classList.add('on');
+  document.getElementById('prog-fill').style.width='10%';
+  document.getElementById('ib-num').textContent='01';
+  document.getElementById('ib-genre').textContent=DATA[0].genre;
+  typeWrite(document.getElementById('ib-title-ar'), DATA[0].title);
+  document.getElementById('ib-title-en').textContent=DATA[0].en;
+  document.getElementById('ib-desc').textContent=DATA[0].desc;
+  document.getElementById('ib-score').textContent=DATA[0].score;
+  document.getElementById('ib-year').textContent=DATA[0].year;
+  document.getElementById('tb-left').textContent=DATA[0].en.split(':')[0];
+  document.getElementById('tb-right').textContent=DATA[0].year+' · '+DATA[0].studio;
+  setTimeout(()=>{
+    document.getElementById('ib-divider').classList.add('open');
+    document.getElementById('ib-score-row').classList.add('show');
+  },600);
+}
+
+/* ─────────── BUTTONS ─────────── */
+document.getElementById('btn-next').addEventListener('click',()=>goTo((cur+1)%10));
+document.getElementById('btn-prev').addEventListener('click',()=>goTo((cur+9)%10));
+
+/* ─────────── KEYBOARD ─────────── */
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown') goTo((cur+1)%10);
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp')   goTo((cur+9)%10);
+});
+
+/* ─────────── WHEEL ─────────── */
+let wheelLock=false;
+window.addEventListener('wheel',e=>{
+  if(wheelLock) return; wheelLock=true;
+  setTimeout(()=>wheelLock=false,900);
+  if(e.deltaY>0) goTo((cur+1)%10);
+  else           goTo((cur+9)%10);
+},{passive:true});
+
+/* ─────────── SWIPE ─────────── */
+let tx=0;
+window.addEventListener('touchstart',e=>tx=e.touches[0].clientX,{passive:true});
+window.addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-tx;
+  if(Math.abs(dx)>50){ if(dx<0) goTo((cur+1)%10); else goTo((cur+9)%10); }
+},{passive:true});
+
+/* ─────────── CURSOR ─────────── */
+const c1=document.getElementById('c1'), c2=document.getElementById('c2');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+(function animCur(){
+  rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
+  c1.style.transform=`translate(${mx}px,${my}px)`;
+  c2.style.transform=`translate(${rx}px,${ry}px)`;
+  requestAnimationFrame(animCur);
+})();
+document.querySelectorAll('button,.dot').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{
+    c1.style.width='20px';c1.style.height='20px';c1.style.margin='-10px 0 0 -10px';c1.style.background='transparent';c1.style.border='1px solid var(--cream)';
+    c2.style.width='50px';c2.style.height='50px';c2.style.margin='-25px 0 0 -25px';
+  });
+  el.addEventListener('mouseleave',()=>{
+    c1.style.width='6px';c1.style.height='6px';c1.style.margin='-3px 0 0 -3px';c1.style.background='var(--cream)';c1.style.border='none';
+    c2.style.width='32px';c2.style.height='32px';c2.style.margin='-16px 0 0 -16px';
+  });
+});
+
+/* ─────────── LOADER ─────────── */
+setTimeout(()=>{
+  document.getElementById('loader').classList.add('out');
+  setTimeout(init, 400);
+}, 2000);
+</script>
+</body>
+</html>
